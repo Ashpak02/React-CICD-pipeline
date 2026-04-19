@@ -41,7 +41,7 @@ function App() {
           <li>Jenkins pulls the repository</li>
           <li>Docker image is built</li>
           <li>Container is deployed automatically</li>
-          <li>App runs on EC2 instance</li>
+          <li>App runs on EC2 instance..!</li>
         </ol>
       </div>
 
