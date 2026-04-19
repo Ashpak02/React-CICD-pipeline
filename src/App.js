@@ -38,8 +38,8 @@ function App() {
         <h2>🔄 CI/CD Workflow</h2>
         <ol>
           <li>Code pushed to GitHub</li>
-          <li>Jenkins pulls the repository</li>
-          <li>Docker image is built</li>
+          <li>Jenkins pulls the repository!</li>
+          <li>Docker image is built!</li>
           <li>Container is deployed automatically</li>
           <li>App runs on EC2 instance..!</li>
         </ol>
