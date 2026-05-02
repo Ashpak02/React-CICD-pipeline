@@ -1,87 +1,165 @@
-import React from "react";
-import "./App.css";
+import React, { useState, useEffect } from 'react';
 
-function App() {
+const App = () => {
+  const [uptime, setUptime] = useState(0);
+  const [logs, setLogs] = useState([
+    "🚀 Initializing Cloud Environment...",
+    "📦 Pulling Docker Image: ashpak02/react-cicd:latest",
+    "🔧 Jenkins Pipeline: Stage 'Build' - SUCCESS",
+    "☁️ AWS EC2 Instance: Healthy",
+  ]);
+
+  // Fun Task: Simulate real-time monitoring logs
+  useEffect(() => {
+    const timer = setInterval(() => setUptime(prev => prev + 1), 1000);
+    const logInterval = setInterval(() => {
+      const messages = [
+        "📊 Prometheus scraping metrics...",
+        "📈 Grafana dashboard updated",
+        "🐧 Linux kernel stable",
+        "✅ GitHub Webhook triggered",
+      ];
+      const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+      setLogs(prev => [randomMsg, ...prev.slice(0, 5)]);
+    }, 4000);
+
+    return () => {
+      clearInterval(timer);
+      clearInterval(logInterval);
+    };
+  }, []);
+
   return (
     <div style={styles.container}>
-      <h1 style={styles.heading}>🚀 DevOps CI/CD Project</h1>
+      {/* Header Section */}
+      <header style={styles.header}>
+        <h1 style={styles.title}>CloudOps Portfolio Dashboard</h1>
+        <div style={styles.badgeContainer}>
+          <span style={styles.badge}>AWS EC2</span>
+          <span style={styles.badge}>Docker</span>
+          <span style={styles.badge}>Jenkins</span>
+          <span style={styles.badge}>Linux</span>
+        </div>
+      </header>
 
-      <p style={styles.description}>
-        This project demonstrates a complete CI/CD pipeline using Jenkins,
-        Docker, GitHub, and AWS EC2. The application is built using React and
-        deployed inside a Docker container through an automated Jenkins pipeline.
-      </p>
+      <main style={styles.main}>
+        {/* Stats Grid */}
+        <div style={styles.grid}>
+          <div style={styles.card}>
+            <h3>System Uptime</h3>
+            <p style={styles.statText}>{uptime}s</p>
+          </div>
+          <div style={styles.card}>
+            <h3>Deployment Status</h3>
+            <p style={{ ...styles.statText, color: '#4ade80' }}>ACTIVE</p>
+          </div>
+          <div style={styles.card}>
+            <h3>Monitoring</h3>
+            <p style={styles.statText}>Prometheus / Grafana</p>
+          </div>
+        </div>
 
-      <div style={styles.card}>
-        <h2>📌 Project Overview</h2>
-        <ul>
-          <li>Automated CI/CD pipeline using Jenkins</li>
-          <li>Dockerized React application</li>
-          <li>Deployed on AWS EC2 instance</li>
-          <li>Integrated with GitHub repository</li>
-        </ul>
-      </div>
+        {/* Console / Log Section */}
+        <div style={styles.console}>
+          <div style={styles.consoleHeader}>terminal — ashpak@cloud-instance</div>
+          <div style={styles.consoleBody}>
+            {logs.map((log, i) => (
+              <div key={i} style={styles.logLine}>
+                <span style={{ color: '#4ade80' }}>$</span> {log}
+              </div>
+            ))}
+          </div>
+        </div>
 
-      <div style={styles.card}>
-        <h2>⚙️ Technologies Used</h2>
-        <ul>
-          <li>React.js</li>
-          <li>Docker</li>
-          <li>Jenkins</li>
-          <li>AWS EC2</li>
-          <li>Git & GitHub</li>
-          <li>Linux (Ubuntu)</li>
-        </ul>
-      </div>
+        {/* Fun Task: Skill Interaction */}
+        <section style={styles.funSection}>
+          <h3>Interactive Skill Check</h3>
+          <p>Click a service to verify connection:</p>
+          <div style={styles.buttonGroup}>
+            {['Docker', 'AWS', 'GitHub', 'Grafana'].map(skill => (
+              <button 
+                key={skill} 
+                onClick={() => alert(`${skill} Connection: 200 OK ✅`)}
+                style={styles.button}
+              >
+                Test {skill}
+              </button>
+            ))}
+          </div>
+        </section>
+      </main>
 
-      <div style={styles.card}>
-        <h2>🔄 CI/CD Workflow</h2>
-        <ol>
-          <li>Code pushed to GitHub</li>
-          <li>Jenkins pulls the repository!</li>
-          <li>Docker image is built!</li>
-          <li>Container is deployed automatically</li>
-          <li>App runs on EC2 instance..!</li>
-        </ol>
-      </div>
-
-      <div style={styles.footer}>
-        <p>💡 This project highlights my skills in DevOps and Cloud deployment.</p>
-      </div>
+      <footer style={styles.footer}>
+        Built by Ashpak | Deployed via CI/CD Pipeline 🚀
+      </footer>
     </div>
   );
-}
+};
 
 const styles = {
   container: {
-    fontFamily: "Arial, sans-serif",
-    padding: "30px",
-    backgroundColor: "#f4f6f8",
-    minHeight: "100vh",
+    backgroundColor: '#0f172a',
+    color: '#f8fafc',
+    minHeight: '100vh',
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    padding: '20px',
   },
-  heading: {
-    textAlign: "center",
-    color: "#2c3e50",
+  header: {
+    textAlign: 'center',
+    marginBottom: '40px',
+    borderBottom: '1px solid #334155',
+    paddingBottom: '20px',
   },
-  description: {
-    textAlign: "center",
-    maxWidth: "800px",
-    margin: "20px auto",
-    fontSize: "18px",
+  title: { fontSize: '2.5rem', color: '#38bdf8' },
+  badgeContainer: { display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' },
+  badge: {
+    backgroundColor: '#1e293b',
+    padding: '5px 15px',
+    borderRadius: '20px',
+    fontSize: '0.9rem',
+    border: '1px solid #38bdf8',
+  },
+  main: { maxWidth: '900px', margin: '0 auto' },
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+    gap: '20px',
+    marginBottom: '30px',
   },
   card: {
-    backgroundColor: "#fff",
-    padding: "20px",
-    margin: "20px auto",
-    borderRadius: "10px",
-    maxWidth: "700px",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+    backgroundColor: '#1e293b',
+    padding: '20px',
+    borderRadius: '12px',
+    textAlign: 'center',
+    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
   },
-  footer: {
-    textAlign: "center",
-    marginTop: "30px",
-    fontWeight: "bold",
+  statText: { fontSize: '1.5rem', fontWeight: 'bold', margin: '10px 0' },
+  console: {
+    backgroundColor: '#000',
+    borderRadius: '8px',
+    overflow: 'hidden',
+    boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.5)',
   },
+  consoleHeader: {
+    backgroundColor: '#334155',
+    padding: '8px 15px',
+    fontSize: '0.8rem',
+    color: '#cbd5e1',
+  },
+  consoleBody: { padding: '15px', minHeight: '150px' },
+  logLine: { marginBottom: '8px', fontFamily: 'monospace', fontSize: '0.95rem' },
+  funSection: { marginTop: '40px', textAlign: 'center' },
+  buttonGroup: { display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '15px' },
+  button: {
+    padding: '10px 20px',
+    backgroundColor: '#38bdf8',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    transition: 'transform 0.2s',
+  },
+  footer: { textAlign: 'center', marginTop: '50px', opacity: 0.6, fontSize: '0.8rem' }
 };
 
 export default App;
